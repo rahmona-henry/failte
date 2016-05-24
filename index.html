@@ -1,16 +1,19 @@
 <html>
 <head>
   <title>Failte</title>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
   <script src='http://code.jquery.com/jquery-latest.min.js'></script>
   <script src='/socket.io/socket.io.js'></script>
-  <link rel='stylesheet' type='text/css' href='./main.css'>
-  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
 </head>
+<style>
+  body {
+    margin-top:30px
+  }
+    #messageArea{
+      display:none
+    }
+</style>
 <body>
-  <br>
-  <br>
-  <br>
-  <br>
   <div class='container'>
       <div id='userFormArea' class='row'>
         <div class='col-md-12'>
@@ -58,7 +61,7 @@
 
       $messageForm.submit(function(e){
        e.preventDefault()
-       console.log('submitted')
+      //  console.log('submitted')
        socket.emit('send message', $message.val())
        $message.val('')
      })
@@ -69,21 +72,24 @@
 
       $userForm.submit(function(e){
        e.preventDefault()
-       console.log('submitted')
+       console.log('submitted hell ya')
        socket.emit('new user', $username.val(), function(data){
+          console.log('data', data)
            if(data){
                $userFormArea.hide()
                $messageArea.show()
+
            }
        })
        $username.val('')
      })
     socket.on('get users', function(data){
       var html =''
-      for(i=0;i < data.length;i++){
+      for(i=0; i < data.length; i++){
         html += '<li class="list-group-item">'+data[i]+' </li>'
       }
       $users.html(html)
+
     })
 
  })

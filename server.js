@@ -6,19 +6,20 @@ var io = require('socket.io').listen(server)
 var users =[]
 var connections =[]
 
-server.listen(process.env.port || 3000)
+server.listen(process.env.PORT || 3000)
 console.log('Server running')
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html')
 })
 //Create Connection
-io.sockets.on('connection', function(socket){
+io.on('connection', function(socket){
     connections.push(socket)
-    console.log('Connected %s sockets connected', connections.length)
+    console.log('Connected: %s sockets connected oh yeah!!!!!!', connections.length)
 })
 //Disconnect Connection
-io.sockets.on('disconnect', function(data){
+io.on('disconnect', function(data){
+    // if(!socket.username) return
     users.splice(users.indexOf(socket.username),1)
     updateUsernames()
     connections.splice(connections.indexOf(socket),1)
@@ -26,14 +27,14 @@ io.sockets.on('disconnect', function(data){
       })
 
 //Send Message
-io.sockets.on('send message', function(data){
+io.on('send message', function(data){
     console.log(data)
-    io.sockets.emit('new message',{msg:data})
+    sockets.emit('new message',{msg:data})
   })
 
 
 //New users
-io.sockets.on('new user', function(data, callback){
+io.on('new user', function(data, callback){
     callback(true)
     socket.username = data
     users.push(socket.username)
@@ -42,5 +43,5 @@ io.sockets.on('new user', function(data, callback){
 })
 
 function updateUsernames(){
-    io.sockets.emit('get users', users)
+    sockets.emit('get users', users)
 }
