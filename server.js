@@ -15,7 +15,7 @@ app.get('/', function(req, res){
 //Create Connection
 io.on('connection', function(socket){
     connections.push(socket)
-    console.log('Connected: %s sockets connected oh yeah!!!!!!', connections.length)
+    console.log('Connected: %s sockets connected', connections.length)
 })
 //Disconnect Connection
 io.on('disconnect', function(data){
